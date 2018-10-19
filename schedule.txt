@@ -2,19 +2,20 @@
 Schedule: 
 
 Checkpoint 1
-__ View - display menu screen
-__ View - display simplified level screen
-__ Model - move player left and right
-__ Model - fire a shot in a straight line
-__ Model - fixed generation of enemies
-__ Model - register an enemy being hit
+? View - displays a window
+__ >> Checkpoint 2: View - display menu screen
+__ >> Checkpoint 2: View - display simplified level screen
+? Model - move player left and right
+? Model - fire a shot in a straight line
+? Model - fixed generation of enemies
+? Model - register an enemy being hit
 
 Optional
 __ implement different screens for different levels
 
 Checkpoint 2
-__ Model - enemies descend from the top
-__ Model - enemies disappear when defeated
+? >> Checkpoint 1: Model - enemies descend from the top
+? >> Checkpoint 1: Model - enemies disappear when defeated
 __ Model - evaluate for win or lose
 __ Model - random generation of enemies
 __ Model - generation of power ups
