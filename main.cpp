@@ -4,10 +4,13 @@
 const int WIDTH= 958;
 const int HEIGHT= 536;
 
+// Checks to see if all of the conditions for opening a window are ture
 bool init();
 
-bool load();
+// Checks to see if visuals are included
+bool media();
 
+// Exits the window
 void close();
 
 SDL_Window* window = NULL;
@@ -67,6 +70,7 @@ bool init(){
 
   int main(int argc, char* args[]){
 
+  // Makes sure that all of the startig requirments are met, else returs errors	  
     if(!init() ){
     printf("Failed to initialized!\n" );
     }
@@ -81,7 +85,8 @@ bool init(){
 
 	while(!quit){
 	  while( SDL_PollEvent( &e ) != 0 ){
-	    if (e.type == SDL_QUIT){
+	 // checks for when the quit button is clicked, then exits out of the window 
+         if (e.type == SDL_QUIT){
 	      quit = true;
 	}
       }                      
@@ -93,38 +98,3 @@ bool init(){
     close();
     return 0;
   }
-  /*
-int main(int argc, char ** argv)
-{
-  SDL_Window* window = NULL;
-  SDL_Surface* screenSurface = NULL;
-
-  if (SDL_Init (SDL_INIT_VIDEO) < 0){
-    printf("SDL could not be iniliazed, ERROR: %s\n", SDL_GetError());
-  }
-    else {
-
-      window = SDL_CreateWindow("Space Invaders", SDL_WINDOWPOS_UNDEFINED,
-				SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT,
-SDL_WINDOW_SHOWN);
-      if ( window == NULL){
-	printf("SDL could not be iniliazed, ERROR: %s\n", SDL_GetError());
-      }
-      else {
-	screenSurface = SDL_GetWindowSurface(window);
-
-      SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF) );
-
-      SDL_UpdateWindowSurface(window);
-
-      SDL_Delay(2000);
-    }
-}
-
-SDL_DestroyWindow(window);
-
-SDL_Quit();
-
-  return 0;
-}
-  */
