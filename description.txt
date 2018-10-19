@@ -1,0 +1,35 @@
+
+Description: 
+
+Play a shooter from the point of view of an underwater civilization fighting 
+off invading surface-dwellers, similar to Space Invaders.
+
+SDL - Menu Screen & Level Screen including music and sound effects
+Mechanics -  moving left and right and shooting
+Features - 3 levels of increasing difficulty(more powerful enemies), 3 kinds of
+power ups (speed bonus, attack bonus, bomb that takes out multiple enemies)
+
+In-Depth:
+
+Menu Screen - Play, Options(*optional feature), Credits, Exit
+Level Screen - player avatar at bottom, randomly generated enemies descend from
+the top, power ups may appear/disappear, player fires shots at the enemies
+
+Enemies increasing in difficulty - take more than one shot to kill, descend at
+faster speeds (player loses once they reach the bottom of the screen)
+
+Optional features - different backgrounds for levels, options menu to turn 
+on/off music or sound effects, most powerful enemey can shoot at player 
+
+Win state - player defeats all enemies in the level
+
+Art assets - starfish 'shots', shell 'bomb', player and enemy avatars
+Sound assets - menu and level music, shooting, enemy defeated, win/lose  
+
+Classes: 
+
+Player, Enemy, Model, View, Controller
+
+Dynamic Memory: 
+
+Defeated enemies and players are deconstructed.

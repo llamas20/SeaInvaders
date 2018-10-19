@@ -1,0 +1,39 @@
+
+Schedule: 
+
+Checkpoint 1
+__ View - display menu screen
+__ View - display simplified level screen
+__ Model - move player left and right
+__ Model - fire a shot in a straight line
+__ Model - fixed generation of enemies
+__ Model - register an enemy being hit
+
+Optional
+__ implement different screens for different levels
+
+Checkpoint 2
+__ Model - enemies descend from the top
+__ Model - enemies disappear when defeated
+__ Model - evaluate for win or lose
+__ Model - random generation of enemies
+__ Model - generation of power ups
+__ Controller - navigate the menu screen
+__ Controller - respond to input to move player
+__ Controller - respond to input to shoot
+
+Optional
+__ display the current score and the level goal
+
+Final
+__ View - add art and audio assets
+__ View - display complex level screen
+__ View - display win/lose message
+__ Model - implement power up effects
+__ Model - unused power ups disappear
+__ Controller - run game start to finish
+__ Controller - catch/display bad input
+
+Optional
+__ add options menu that turns on/off music or sound
+__ highest level enemies can shoot at the player
