@@ -2,64 +2,84 @@
 #ifndef _UNDERSEA_INVADERS_MODEL_H
 #define _UNDERSEA_INVADERS_MODEL_H
 
+/*
+  Represents a Starfish in an UnderSea Invaders game. Starfish are the
+  projectiles a Player can shoot to damage Invaders.
+*/
 struct Starfish() {
-  int ix, iy;
-  bool iShot;
-  
+  int x, y; // the position of a Starfish
+  bool shot; // whether a Starfish has been fired
 };
 
-
+/*
+  Represents an Invader in an UnderSea Invaders game. Invaders are the enemies
+  that the Player is trying to defeat to win the game.
+*/
 class Invader {
   public:
-  Invader();
-  Invader(int x, int y, int hp);
-  ~Invader();
-  
-  // check if the invader is hit
-  boolean isHit(Starfish sf);
+  Invader(); // generate Invader with default position
+  Invader(int ix, int isp, int ihp); // generate Invader at the given position
+  ~Invader(); // delete an existing Invader
+  /*
+    Determines if an Invader has been hit by a Starfish.
+  */
+  boolean isHit(Starfish star);
+  /*
+    Determines if an Invader has been defeated by the Player.
+  */
+  boolean isDefeated();
+  /*
+    Moves the Invader towards the bottom of the screen.
+    @param degree of change in position of Invader
+  */
+  void moveInvader(int changeY);
+
   private:
-  int ix, iy, ihp;
+  int x, y, speed, hp; // the position and health of an Invader
 };
- 
+
 /*
-  Represents an UnderSea Invaders game. 
+  Represents the model for an UnderSea Invaders game and implements mechanics:
+  shooting Starfish, moving the Player, tracking game state, etc...
 */
 class UnderSeaInvadersModel {
   public:
-  UnderSeaInvadersModel();
-  ~UnderSeaInvadersModel();
-
+  UnderSeaInvadersModel(); // generates a UnderSeaInvadersModel
+  ~UnderSeaInvadersModel(); // destroys an UnderSeaInvadersModel
   /*
-    Moves a player left or right.
-    @param changeX degree of change in position of the player
+    Moves a Player left or right. Players can only move horizontally.
+    @param changeX degree of change in position of the Player
   */
   void movePlayer(int changeX);
   /*
-    Generates Invaders in a game.
+    Shoots a Starfish from the current position of the Player. Only one Starfish
+    can be onscreen at any one time.
+  */
+  Starfish shoot();
+  /*
+    Moves the Starfish after it has been fired towards the top of the screen.
+    @paran changeY degree of change in position of the Starfish
+  */
+  void moveStarfish(int changeY);
+  /*
+    Moves all Invaders on screen towards the bottom of the screen.
+  */
+  void moveInvaders();
+  /*
+    Generates Invaders at the given positions in an UnderSea Invaders game.
     @param invaderX the list of positions of Invaders
   */
-  
-  
-  // creates a starfish
-  Starfish shoot(int x, int y, bool shot);
-
-  // moves starfish
-  void moveStarfish(Starfish sf);
-  
-  // Moves all invaders currently in game
-  void moveInvaders();
-  
-  
   void generateInvaders(vector<int> invaderX);
   /*
-    Removes Invaders from the game.
+    Removes Invaders from the game after they have been defeated.
   */
   void removeInvaders();
 
   private:
-  int playerX; // player position (create Player class?)
-  Starfish starf;
-  vector<Invader> invaders; // current Invaders 
+  int playerX; // Player x position
+  int playerY; // Player y position
+  Starfish star; // the state of the Starfish
+  vector<Invader> invaders; // the Invaders currently onscreen
 };
 
 #endif

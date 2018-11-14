@@ -1,56 +1,27 @@
 #include "Model.h"
 #include <vector>
+
 /*
   Implements operations in an UnderSeaInvadersModel.
 */
 
-UnderSeaInvadersModel::UnderSeaInvadersModel(){
-  int playerX = 200; // Placeholder
-  Starfish starf = {-10, -10, false}; // More Placeholders!!!
-  vector<Invader>enemies = {};
-}
-
-UnderSeaInvadersModel::~UnderSeaInvadersModel(){
-  
-}
-
 Invader::Invader() {
-  int ix = 200; 
-  int iy = -10;
-  int ihp = 1;
-  
-  // All are placeholders
+  this(200, 10, 1); // TODO set default Invader x position
 }
 
-Invader::Invader(int x, int y, int hp) {
-  ix = x;
-  iy = y;
-  ihp = hp;
+Invader::Invader(int ix, int isp, int ihp) {
+  x = ix;
+  y = -10; // Invaders should descend from offscreen
+  speed = speed;
+  hp = ihp;
 }
 
-Invader::~Invader() {
-  
-}
+Invader::~Invader() {}
 
-Starfish UnderSeaInvadersModel::shoot(int x, bool shot) {
-  if(!shot) {
-    Starfish star = {x, 250, true}; // 250 is placeholder
-  }
-}
-
-void UnderSeaInvadersModel::moveStarfish(Starfish sf) {
-  sf.iy -= 5; //Placeholder
-}
-
-void UnderSeaInvadersModel::moveInvaders() {
-  for(Invader inv : enemies) {
-    inv.iy += 2;  
-  }
-}
-
-bool Invader::isHit(Starfish sf) {
-  if((sf.ix >= *this.ix && sf.ix <= *this.ix + 10) && (sf.iy >= *this.iy && sf.iy <= this.iy + 10)) { //Placeholders
-    this.ihp -= 1;
+bool Invader::isHit(Starfish star) {
+  if((star.x >= *x && star.x <= *x + 10) &&
+  (star.y >= *y && star.y <= y + 10)) { //Placeholders
+    hp -= 1;
     return true;
   }
   else {
@@ -58,21 +29,60 @@ bool Invader::isHit(Starfish sf) {
   }
 }
 
+bool Invader::isDefeated() {
+  return hp == 0;
+}
+
+void Invader::moveInvader(int changeY) {
+  y += changeY;
+}
+
+UnderSeaInvadersModel::UnderSeaInvadersModel(){
+  playerX = 200; // TODO set default player x position
+  playerY = 200; // TODO set player Y position
+  star = {playerX, playerY, false};
+  invaders = {};
+}
+
+UnderSeaInvadersModel::~UnderSeaInvadersModel(){}
+
 void UnderSeaInvadersModel::movePlayer(int changeX){
   playerX += changeX;
 }
 
-void UnderSeaInvadersModel::generateInvaders(std::vector<int> invaderX){
+Starfish UnderSeaInvadersModel::shoot() {
+  if(!star.shot) {
+    star = {playerX, playerY, true};
+  }
+}
+
+void UnderSeaInvadersModel::moveStarfish() {
+  star.y -= 5; //Placeholder
+  // reset the Starfish if it hits an Invader
+  for(int i = invaders.size() - 1; i >= 0; i--) {
+    if(invades[i].isHit(star)) {
+      star = {playerX, playerY, false};
+    }
+  }
+}
+
+void UnderSeaInvadersModel::moveInvaders() {
+  for(Invader inv : invaders) {
+    inv.moveInvader(inv.speed);
+  }
+}
+
+void UnderSeaInvadersModel::generateInvaders(vector<int> invaderX){
   for(int i = 0; i < invaderX.size(); i++) {
-    Invader inv = Invader(invaderX[i], -10, 1);  // Placeholder values for the most part
-    enemies.push_back(inv);
+    Invader inv = {invaderX[i], 1};
+    invaders.push_back(inv);
   }
 }
 
 void UnderSeaInvadersModel::removeInvaders(){
-  for(int i = enemies.size() - 1; i >= 0; i--) {
-    if(enemies[i].ihp == 0) {
-      enemies.erase(enemies.begin() + i);
+  for(int i = invaders.size() - 1; i >= 0; i--) {
+    if(invaders[i].isDefeated()) {
+      invaders.erase(invaders.begin() + i);
     }
   }
 }
