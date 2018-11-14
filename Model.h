@@ -33,6 +33,14 @@ class Invader {
     @param degree of change in position of Invader
   */
   void moveInvader(int changeY);
+  /*
+    Returns the x position of the Invader.
+  */
+  int getX();
+  /*
+    Returns the y position of the Invader.
+  */
+  int getY();
 
   private:
   int x, y, speed, hp; // the position and health of an Invader
@@ -55,7 +63,7 @@ class UnderSeaInvadersModel {
     Shoots a Starfish from the current position of the Player. Only one Starfish
     can be onscreen at any one time.
   */
-  Starfish shoot();
+  void shoot();
   /*
     Moves the Starfish after it has been fired towards the top of the screen.
     @paran changeY degree of change in position of the Starfish
@@ -74,6 +82,22 @@ class UnderSeaInvadersModel {
     Removes Invaders from the game after they have been defeated.
   */
   void removeInvaders();
+  /*
+    Returns the x position of the Player.
+  */
+  int getPlayerX();
+  /*
+    Returns the y position of the Player.
+  */
+  int getPlayerY();
+  /*
+    Returns the Starfish.
+  */
+  Starfish getStarfish();
+  /*
+    Returns the list of Invaders.
+  */
+  vector<Invader> getInvaders();
 
   private:
   int playerX; // Player x position

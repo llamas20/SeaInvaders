@@ -33,8 +33,16 @@ bool Invader::isDefeated() {
   return hp == 0;
 }
 
-void Invader::moveInvader(int changeY) {
-  y += changeY;
+void Invader::moveInvader() {
+  y += speed;
+}
+
+int Invader::getX() {
+  return x;
+}
+
+int Invader::getY() {
+  return y;
 }
 
 UnderSeaInvadersModel::UnderSeaInvadersModel(){
@@ -50,7 +58,7 @@ void UnderSeaInvadersModel::movePlayer(int changeX){
   playerX += changeX;
 }
 
-Starfish UnderSeaInvadersModel::shoot() {
+void UnderSeaInvadersModel::shoot() {
   if(!star.shot) {
     star = {playerX, playerY, true};
   }
@@ -68,7 +76,7 @@ void UnderSeaInvadersModel::moveStarfish() {
 
 void UnderSeaInvadersModel::moveInvaders() {
   for(Invader inv : invaders) {
-    inv.moveInvader(inv.speed);
+    inv.moveInvader();
   }
 }
 
@@ -85,4 +93,20 @@ void UnderSeaInvadersModel::removeInvaders(){
       invaders.erase(invaders.begin() + i);
     }
   }
+}
+
+int UnderSeaInvadersModel::getPlayerX() {
+  return playerX;
+}
+
+int UnderSeaInvadersModel::getPlayerY() {
+  return playerY;
+}
+
+Starfish UnderSeaInvadersModel::getStarfish() {
+  return new Starfish{star.x, star.y, star.shot};
+}
+
+vector<Invader> UnderSeaInvadersModel::getInvaders() {
+  // TODO return a deep copy of invaders
 }
