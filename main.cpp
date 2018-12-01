@@ -1,17 +1,36 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <string>
 
-const int WIDTH= 958;
-const int HEIGHT= 536;
 
-// Checks to see if all of the conditions for opening a window are ture
+// The height and width of the window
+const int WIDTH= 1000;
+const int HEIGHT= 1000;
+
+enum KeyPressSurfaces
+  {
+    KEY_PRESS_SURFACE_DEFAULT,
+    KEY_PRESS_SURFACE_UP,
+    KEY_PRESS_SURFACE_DOWN,
+    KEY_PRESS_SURFACE_LEFT,
+    KEY_PRESS_SURFACE_RIGHT,
+    KEY_PRESS_SURFACE_TOTAL
+  };
+
+// Returns true is proper starting conditions are met
 bool init();
 
-// Checks to see if visuals are included
+// Returns true if the media needed is loaded properly
 bool media();
 
-// Exits the window
+// Closes the window
 void close();
+
+// Loads images
+SDL_Surface* loadSurface(std::string path);
+
+//images and keypresses
+SDL_Surface* keyPress[KEY_PRESS_SURFACE_TOTAL];
 
 SDL_Window* window = NULL;
 
@@ -19,14 +38,17 @@ SDL_Surface* screenSurface = NULL;
 
 SDL_Surface* startscreen = NULL;
 
+SDL_Surface* curSurface = NULL;
+
 SDL_Surface* exitOut = NULL;
+
 
 bool init(){
   bool success = true;
 
   if (SDL_Init (SDL_INIT_VIDEO)<0){
     success = false;
-    printf("SDL could not be iniliazed, ERROR: %s\n", 
+    printf("SDL could not be iniliazed, ERROR: %s\n",
 	   SDL_GetError());
   }
   else {
@@ -45,52 +67,116 @@ bool init(){
   bool media(){
     bool success = true;
 
-    startscreen = SDL_LoadBMP("starting_screen.bmp");
+    keyPress[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("startingScreen.bmp");
 
-     if (startscreen == NULL){
+     if (keyPress[KEY_PRESS_SURFACE_DEFAULT]== NULL){
        printf("Unable to load pcture %s! Error: %s\n", SDL_GetError() );
        success = false;
      }
+
+//loads the image when up arrow is pressed
+keyPress[KEY_PRESS_SURFACE_UP] = loadSurface("secondScreen.bmp");
+
+if (keyPress[KEY_PRESS_SURFACE_UP]== NULL){
+       printf("Unable to load pcture %s! Error: %s\n", SDL_GetError() );
+       success = false;
+}
+
+//loads the image when the down arrow is pressed
+keyPress[KEY_PRESS_SURFACE_DOWN] = loadSurface("secondScreen.bmp");
+
+if (keyPress[KEY_PRESS_SURFACE_DOWN]== NULL){
+       printf("Unable to load pcture %s! Error: %s\n", SDL_GetError() );
+       success = false;
+ }
+
+// loads the imahe when the left arrow is pressed
+keyPress[KEY_PRESS_SURFACE_LEFT] = loadSurface("secondScreen.bmp");
+
+if (keyPress[KEY_PRESS_SURFACE_LEFT]== NULL){
+       printf("Unable to load pcture %s! Error: %s\n", SDL_GetError() );
+       success = false;
+}
+// loads the image when the right arrow is pressed
+keyPress[KEY_PRESS_SURFACE_RIGHT] = loadSurface("secondScreen.bmp");
+if (keyPress[KEY_PRESS_SURFACE_RIGHT]== NULL){
+       printf("Unable to load pcture %s! Error: %s\n", SDL_GetError() );
+       success = false; }
+
    return success;
   }
 
 
   void close(){
-    SDL_FreeSurface(startscreen);
-    startscreen = NULL;
+//deallocates the surface
+    for (int i = 0; i < KEY_PRESS_SURFACE_TOTAL; ++i){
+ SDL_FreeSurface (keyPress [i]);
+ keyPress[i] = NULL;
+}
 
     SDL_DestroyWindow(window);
     window = NULL;
 
     SDL_Quit();
-
- 
-
   }
 
-  int main(int argc, char* args[]){
+SDL_Surface* loadSurface(std::string path){
+SDL_Surface* loadedSur = SDL_LoadBMP(path.c_str());
+if (loadedSur == NULL ){
+printf( "Unable to load image %s!");
+}
+return loadedSur;
+}
 
-  // Makes sure that all of the startig requirments are met, else returs errors	  
+
+
+  int main(int argc, char* args[]){
+    // Checks if all requirments are met
     if(!init() ){
     printf("Failed to initialized!\n" );
     }
     else {
       if (!media() ){
-	printf("Failed to load media \n" ); 
+	printf("Failed to load media \n" );
       }
       else{
 	bool quit = false;
 
 	SDL_Event e;
 
+        curSurface = keyPress[KEY_PRESS_SURFACE_DEFAULT];
+
 	while(!quit){
 	  while( SDL_PollEvent( &e ) != 0 ){
-	 // checks for when the quit button is clicked, then exits out of the window 
-         if (e.type == SDL_QUIT){
+	    if (e.type == SDL_QUIT){
 	      quit = true;
 	}
-      }                      
-	  SDL_BlitSurface( startscreen, NULL, screenSurface, NULL );                                                 
+        else if(e.type == SDL_KEYDOWN){
+switch (e.key.keysym.sym){
+//checks if the up has been pressed
+      case SDLK_UP: curSurface = keyPress[KEY_PRESS_SURFACE_UP];
+       break;
+
+//checks if the down has been pressed
+case SDLK_DOWN: curSurface = keyPress[KEY_PRESS_SURFACE_DOWN];
+       break;
+
+//checks if the right has been pressed
+case SDLK_RIGHT: curSurface = keyPress[KEY_PRESS_SURFACE_RIGHT];
+       break;
+
+//checks if the left has been pressed
+case SDLK_LEFT: curSurface = keyPress[KEY_PRESS_SURFACE_LEFT];
+       break;
+
+default:
+curSurface = keyPress[KEY_PRESS_SURFACE_DEFAULT];
+break;
+}
+}
+
+      }
+	  SDL_BlitSurface( curSurface, NULL, screenSurface, NULL );
 	  SDL_UpdateWindowSurface( window );
 	}
       }
@@ -98,3 +184,4 @@ bool init(){
     close();
     return 0;
   }
+
