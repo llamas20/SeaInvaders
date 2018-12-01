@@ -1,0 +1,2 @@
+Touch an arrow key to be brought to an image that explains
+the basics of our game and what sprites will be used.

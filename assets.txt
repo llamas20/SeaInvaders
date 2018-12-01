@@ -1,0 +1,3 @@
+THe assests we used for checkpoint 2 were self-made images on MS Paint. 
+For the SDL, we have been using the Lazy Foo Productions tutorial, which is 
+linked on the project page
