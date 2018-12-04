@@ -1,0 +1,20 @@
+Rights:
+1) The first two checkpoints were simplier than expected because
+of the help of the SDL tutorials. Using the extra amount of time 
+we had durning each, we began slowly working on other classes, such
+as making functions to deal with player movement
+2) We ended up using SDL movement rather than our own movement, because
+SDL takes care of that better than our own code did because of the
+way the Model and the Main interact.
+
+Wrongs:
+1) The biggest problem we had was not looking too much into SDL 
+before starting other parts of the project. For example, we made our 
+own movement, which took a long time, but later found that SDL can handle 
+that with ease. This wasted alot of time we could have spent refining 
+our code.
+2) Until the day before this was due, we were only working on one
+laptop because it was the only one able to run SDL, which caused
+major problems. Rather than working independently and then combining 
+code, we were pair programming, which does not work well on such a 
+large project. 
